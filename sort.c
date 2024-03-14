@@ -1,3 +1,4 @@
+//Cristian McGee COP3502 MergeSort Lab 8
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,8 +30,58 @@ size_t Size(void* ptr)
 
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
+
 void mergeSort(int pData[], int l, int r)
 {
+	if(l < r){
+		int m = (l + r) / 2;
+		mergeSort(pData, l, m);
+		mergeSort(pData, m + 1, r);
+	
+		//merge(pData, l, m, r);
+		int i, j, k;
+		int n1 = m - l + 1;
+		int n2 = r - m;
+		int *L = (int*)Alloc(n1 * sizeof(int));
+		int *R = (int*)Alloc(n2 * sizeof(int));
+		for(int w = 0; w < n1; w++){
+			L[w] = pData[l + w];
+		}
+		for(int v = 0; v < n2; v++){
+			R[v] = pData[m + 1 + v];
+		}
+		i = 0;
+		j = 0;
+		k = l;
+
+		while(i < n1 && j < n2){
+			if(L[i] <= R[j]){
+				pData[k] = L[i];
+				i++;
+			} else {
+				pData[k] = R[j];
+				j++;
+			}
+			k++;
+		}
+		if(i < n1){
+			while(i < n1){
+				pData[k] = L[i];
+				k++;
+				i++;
+			}
+		} else if (j < n2){
+			while(j < n2){
+				pData[k] = R[j];
+				k++;
+				j++;
+			}
+		}
+
+		DeAlloc(L);
+		DeAlloc(R);
+
+	}
 }
 
 // parses input file to an integer array
